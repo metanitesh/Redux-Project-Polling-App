@@ -2,12 +2,13 @@ import React from 'react';
 import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom'
-
+import { BrowserRouter } from 'react-router-dom';
+import indexReducer from './reducers/index';
+import indexMiddleware from './middleware/index';
 import App from './App';
-// import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
 
-const store = createStore(() => {});
+const store = createStore(indexReducer, indexMiddleware);
+window.store = store;
 
 ReactDOM.render(
   <BrowserRouter>

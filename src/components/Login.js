@@ -13,20 +13,17 @@ export default function Login() {
         <Card>
           <Card.Header>Login</Card.Header>
           <Card.Body>
-            <Card.Title>Special title treatment</Card.Title>
-            <Card.Text>
-              <Dropdown>
-                <Dropdown.Toggle variant="Info" id="dropdown-basic">
-                  Choose Profile
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">One</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">Two</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">Three</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Card.Text>
+            <Card.Title>Select the user</Card.Title>
+            <Dropdown className="offset3">
+              <Dropdown.Toggle variant="Info" id="dropdown-basic">
+                Choose Profile
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">One</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Two</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Three</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <Button variant="primary">Login</Button>
           </Card.Body>
         </Card>

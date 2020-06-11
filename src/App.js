@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import {connect} from 'react-redux';
 import Login from './components/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getInitialData } from './actions/shared';
+import { getInitialData } from './actions/sharedAction';
 
 class App extends Component {
   componentDidMount() {

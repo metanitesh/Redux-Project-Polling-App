@@ -1,5 +1,5 @@
 import { _getUsers } from '../_DATA';
-import { getUsers } from './user';
+import { getUsers } from './userAction';
 
 export const GET_INITIAL_DATA = 'GET_INITIAL_DATA';
 

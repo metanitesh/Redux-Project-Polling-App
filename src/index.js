@@ -3,18 +3,18 @@ import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import indexReducer from './reducers/index';
-import indexMiddleware from './middleware/index';
+import indexReducer from './reducers/indexReducer';
+import indexMiddleware from './middleware';
 import App from './App';
 
 const store = createStore(indexReducer, indexMiddleware);
 window.store = store;
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
+  <Provider store={store}>
+    <BrowserRouter>
       <App />
-    </Provider>
-  </BrowserRouter>,
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root'),
 );

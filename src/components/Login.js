@@ -6,11 +6,12 @@ import React, { Component } from 'react'
 // import Select from '@material-ui/core/Select';
 import {connect} from 'react-redux';
 import {authUser} from '../actions/authUserAction';
+import {Redirect} from 'react-router-dom'
 
 class Login extends Component {
   
   state = {
-    selectedUser : null,
+    selectedUser : null
   }
 
 
@@ -26,9 +27,14 @@ class Login extends Component {
   }
 
   render() {
-    const { users } = this.props;
-    
 
+    const { users, authUser } = this.props;
+    
+    if(authUser){
+      return <Redirect to="/home" />
+    }
+
+    
     return (
       <>
       <h3>Select the user</h3>
@@ -46,6 +52,7 @@ class Login extends Component {
 }
 
 
-export default connect( ({ users }) => ({
-  users : Object.keys(users)
+export default connect( ({ users, authUser }) => ({
+  users : Object.keys(users),
+  authUser
 }))(Login);

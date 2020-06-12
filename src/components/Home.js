@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Nav from './Nav';
-import Question from './Question';
+import Question from './QuestionOutline';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Home extends Component {
   render() {
     const { questions, users, authUser } = this.props;
+
+    if (!authUser) {
+      return <Redirect to="/" />;
+    }
 
     let authUserProfile = users[authUser];
     let authUserAnswers = [];
@@ -28,10 +33,10 @@ class Home extends Component {
       <>
         <Nav />
         <h3>New Questions</h3>
-        {newQuestions.map((question) => <Question key={question} id={question} />)}
+        {newQuestions.map((question) => <Question key={question} id={question} type="new" />)}
 
         <h3>Answered questions</h3>
-        {authUserAnswers.map((question) => <Question key={question} id={question} />)}
+        {authUserAnswers.map((question) => <Question key={question} id={question} type="answered" />)}
       </>
     );
   }

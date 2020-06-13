@@ -33,9 +33,8 @@ export const saveQuestionAnswer = (qid, answer) => (dispatch, getState) => {
 
 export const saveQuestion = (optionOneText, optionTwoText) => (dispatch, getState) => {
   const author = getState().authUser;
-  const question = formatQuestion({author, optionOneText, optionTwoText});
-  console.log(question);
-  
+  const question = formatQuestion({ author, optionOneText, optionTwoText });
+
   dispatch(saveQuestionAction(question));
   _saveQuestion(question).then(() => {
     console.log(SAVE_QUESTION, 'success');

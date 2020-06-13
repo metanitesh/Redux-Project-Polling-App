@@ -18,23 +18,19 @@ class Question extends Component {
   }
 
   handleSubmit = (event) => {
-    // authedUser, qid, answer
     event.preventDefault();
     const { answer } = this.state;
-    const qid = this.props.match.params.id;
-    const { dispatch } = this.props;
+    const { dispatch, match } = this.props;
+    const qid = match.params.id;
     dispatch(saveQuestionAnswer(qid, answer));
   }
 
   render() {
     const {
-      questions, users, authUser, location,
+      questions, users, authUser, location, match,
     } = this.props;
 
-    console.log('here--------------', location.pathname);
-
     if (!authUser) {
-      console.log(location.pathname);
       return (
         <Redirect to={{
           pathname: '/',
@@ -48,7 +44,7 @@ class Question extends Component {
       return <div> Loading.... </div>;
     }
 
-    const { id } = this.props.match.params;
+    const { id } = match.params;
 
     const question = questions[id];
     if (!question) {
@@ -59,7 +55,7 @@ class Question extends Component {
         </>
       );
     }
-    
+
     const authorProfile = users[authUser];
     const authorAnswers = Object.keys(authorProfile.answers);
 

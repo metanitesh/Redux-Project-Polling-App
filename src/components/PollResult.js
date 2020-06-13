@@ -5,12 +5,32 @@ import Nav from './Nav';
 // eslint-disable-next-line react/prefer-stateless-function
 class PollResult extends Component {
   render() {
-    const { questions, users, authUser } = this.props;
-    const qid = this.props.match.params.id;
+    const {
+      questions, users, authUser, location, match,
+    } = this.props;
+    if (!authUser) {
+      return (
+        <Redirect to={{
+          pathname: '/',
+          state: { referrer: location.pathname },
+        }}
+        />
+      );
+    }
+    const qid = match.params.id;
     const question = questions[qid];
 
+    if (!Object.keys(questions).length || !Object.keys(users).length) {
+      return <div> Loading.... </div>;
+    }
+
     if (!question) {
-      return <p>loading</p>;
+      return (
+        <>
+          <Nav />
+          <h4 className="m-5 text-center">404 Question not found</h4>
+        </>
+      );
     }
 
     const voteOptionOne = question.optionOne.votes.length;
@@ -21,7 +41,7 @@ class PollResult extends Component {
     const isUserVotedOptionTwo = question.optionTwo.votes.includes(authUser);
     const totalVote = voteOptionOne + voteOptionTwo;
 
-    const author =  users[question.author];
+    const author = users[question.author];
 
     if (!isUserVotedOptionOne && !isUserVotedOptionTwo) {
       return <Redirect to="/" />;
@@ -33,8 +53,8 @@ class PollResult extends Component {
         <h3 className="mt-4">Polls</h3>
         <div className="card p-3 poll-container">
           <h4 className="poll-header text-center">
-          <img src={`/${author.avatarURL}`} height="40px"/>
-          {author.name}
+            <img alt="avatar" src={`/${author.avatarURL}`} height="40px" />
+            {author.name}
             {' '}
             Asked - Would you Rather?
           </h4>

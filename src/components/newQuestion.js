@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { saveQuestion } from '../actions/questionAction';
 import Nav from './Nav';
+
 
 class NewQuestion extends Component {
   state = {
@@ -19,8 +21,9 @@ class NewQuestion extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { optionOneText, optionTwoText } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     dispatch(saveQuestion(optionOneText, optionTwoText));
+    history.push('/home');
   }
 
   render() {
@@ -59,4 +62,4 @@ const mapStateToProps = ({ authUser }) => ({
   authUser,
 });
 
-export default connect(mapStateToProps)(NewQuestion);
+export default withRouter(connect(mapStateToProps)(NewQuestion));

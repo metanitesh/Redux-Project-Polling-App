@@ -19,6 +19,7 @@ class Home extends Component {
 
   render() {
     const { questions, users, authUser } = this.props;
+    const { active } = this.state;
 
     if (!authUser) {
       return <Redirect to="/" />;
@@ -47,21 +48,21 @@ class Home extends Component {
         <div className="mt-5">
           <ul className="nav nav-tabs">
             <li className="nav-item">
-              <button className={this.state.active === 'newQuestions' ? 'nav-link active' : 'nav-link'} type="button" name="newQuestions" onClick={this.handleChange}>New Qeustions</button>
+              <button className={active === 'newQuestions' ? 'nav-link active' : 'nav-link'} type="button" name="newQuestions" onClick={this.handleChange}>New Qeustions</button>
               {/* <a  onClick={this.handleChange}>Active</a> */}
             </li>
             <li className="nav-item">
-              <button className={this.state.active === 'answeredQuestions' ? 'nav-link active' : 'nav-link'} type="button" name="answeredQuestions" onClick={this.handleChange}>Answered Qeustions</button>
+              <button className={active === 'answeredQuestions' ? 'nav-link active' : 'nav-link'} type="button" name="answeredQuestions" onClick={this.handleChange}>Answered Qeustions</button>
             </li>
 
 
           </ul>
-          {this.state.active === 'newQuestions' && (
+          {active === 'newQuestions' && (
           <div>
             {newQuestions.map((question) => <Question key={question} id={question} type="new" />)}
           </div>
           )}
-          {this.state.active === 'answeredQuestions' && (
+          {active === 'answeredQuestions' && (
             <div>
               {authUserAnswers.map((question) => <Question key={question} id={question} type="answered" />)}
             </div>
@@ -73,13 +74,11 @@ class Home extends Component {
   }
 }
 
-const mapStateToProp = ({ questions, users, authUser }) => {
-  return {
-    questions: Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp),
-    users,
-    authUser,
-  };
-};
+const mapStateToProp = ({ questions, users, authUser }) => ({
+  questions: Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp),
+  users,
+  authUser,
+});
 
 
 export default connect(mapStateToProp)(Home);

@@ -1,5 +1,4 @@
 import { GET_QUESTIONS, SAVE_ANSWER, SAVE_QUESTION } from '../actions/questionAction';
-import { formatQuestion } from '../_DATA';
 
 export default function (state = {}, action) {
   switch (action.type) {

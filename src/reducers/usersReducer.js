@@ -9,10 +9,10 @@ export default function (state = {}, action) {
     case SAVE_QUESTION: {
       const { question } = action;
       const { author } = question;
-      console.log(author);
       return {
         ...state,
-        [author]: {...state[author],
+        [author]: {
+          ...state[author],
           questions: [...state[author].questions, question.id],
         },
       };

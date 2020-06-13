@@ -23,20 +23,18 @@ class Login extends Component {
     if (selectedUser !== 'none') {
       dispatch(authUser(selectedUser));
     }
-    console.log(this.props);
   }
 
   render() {
-    const { users, authUser } = this.props;
+    const { users, authUser, location } = this.props;
     const { selectedUser } = this.state;
 
-    const{state} = this.props.location;
+    const { state } = location;
 
-    // console.log("*******", this.props.location.state);
     if (authUser && state && state.referrer) {
       return <Redirect to={state.referrer} />;
     }
-    
+
     if (authUser) {
       return <Redirect to="/home" />;
     }

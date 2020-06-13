@@ -24,7 +24,7 @@ class LeadersBoard extends Component {
           return (
             <div key={name} className="card mt-3 d-flex p-2 flex-row">
               <div className="mr-3">
-                <img src={user.avatarURL} height="40px" className="" />
+                <img alt="avatar" src={user.avatarURL} height="40px" className="" />
               </div>
               <div className="mr-3">
                 <span>{user.name}</span>

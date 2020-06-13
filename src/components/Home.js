@@ -6,6 +6,17 @@ import Question from './QuestionOutline';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Home extends Component {
+  state = {
+    active: 'newQuestions',
+  }
+
+  handleChange = (event) => {
+    const { name } = event.target;
+    this.setState({
+      active: name,
+    });
+  }
+
   render() {
     const { questions, users, authUser } = this.props;
 
@@ -22,6 +33,7 @@ class Home extends Component {
       authUserProfile = users[authUser];
       authUserAnswers = Object.keys(authUserProfile.answers);
       newQuestions = questions.filter((question) => !authUserAnswers.includes(question));
+      authUserAnswers = questions.filter((question) => authUserAnswers.includes(question));
     } else {
       loading = true;
     }
@@ -30,23 +42,44 @@ class Home extends Component {
       return <h3>Loading...</h3>;
     }
     return (
-      <>
+      <div>
         <Nav />
-        <h3>New Questions</h3>
-        {newQuestions.map((question) => <Question key={question} id={question} type="new" />)}
+        <div className="mt-5">
+          <ul className="nav nav-tabs">
+            <li className="nav-item">
+              <button className={this.state.active === 'newQuestions' ? 'nav-link active' : 'nav-link'} type="button" name="newQuestions" onClick={this.handleChange}>New Qeustions</button>
+              {/* <a  onClick={this.handleChange}>Active</a> */}
+            </li>
+            <li className="nav-item">
+              <button className={this.state.active === 'answeredQuestions' ? 'nav-link active' : 'nav-link'} type="button" name="answeredQuestions" onClick={this.handleChange}>Answered Qeustions</button>
+            </li>
 
-        <h3>Answered questions</h3>
-        {authUserAnswers.map((question) => <Question key={question} id={question} type="answered" />)}
-      </>
+
+          </ul>
+          {this.state.active === 'newQuestions' && (
+          <div>
+            {newQuestions.map((question) => <Question key={question} id={question} type="new" />)}
+          </div>
+          )}
+          {this.state.active === 'answeredQuestions' && (
+            <div>
+              {authUserAnswers.map((question) => <Question key={question} id={question} type="answered" />)}
+            </div>
+          )}
+
+        </div>
+      </div>
     );
   }
 }
 
-const mapStateToProp = ({ questions, users, authUser }) => ({
-  questions: Object.keys(questions),
-  users,
-  authUser,
-});
+const mapStateToProp = ({ questions, users, authUser }) => {
+  return {
+    questions: Object.keys(questions).sort((a, b) => questions[b].timestamp - questions[a].timestamp),
+    users,
+    authUser,
+  };
+};
 
 
 export default connect(mapStateToProp)(Home);

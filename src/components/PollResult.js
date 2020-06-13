@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-
+import Nav from './Nav';
 // eslint-disable-next-line react/prefer-stateless-function
 class PollResult extends Component {
   render() {
-    const { questions, authUser } = this.props;
+    const { questions, users, authUser } = this.props;
     const qid = this.props.match.params.id;
     const question = questions[qid];
 
@@ -19,6 +19,9 @@ class PollResult extends Component {
     const textOptionTwo = question.optionTwo.text;
     const isUserVotedOptionOne = question.optionOne.votes.includes(authUser);
     const isUserVotedOptionTwo = question.optionTwo.votes.includes(authUser);
+    const totalVote = voteOptionOne + voteOptionTwo;
+
+    const author =  users[question.author];
 
     if (!isUserVotedOptionOne && !isUserVotedOptionTwo) {
       return <Redirect to="/" />;
@@ -26,21 +29,51 @@ class PollResult extends Component {
 
     return (
       <>
-        <h3>Polls</h3>
-        <div>
-          <p>
+        <Nav />
+        <h3 className="mt-4">Polls</h3>
+        <div className="card p-3 poll-container">
+          <h4 className="poll-header text-center">
+          <img src={`/${author.avatarURL}`} height="40px"/>
+          {author.name}
+            {' '}
+            Asked - Would you Rather?
+          </h4>
+
+          <h5 className="text-center">
+            *
             {textOptionOne}
             {' '}
-            <b>{voteOptionOne}</b>
-            <b>{isUserVotedOptionOne ? ' your choice' : ''}</b>
-          </p>
-
-          <p>
+            -
+            {voteOptionOne}
+            /
+            {totalVote}
+            {' '}
+            (
+            {((voteOptionOne * 100) / totalVote).toFixed(2)}
+            %)
+            <span className={isUserVotedOptionOne ? 'badge badge-primary' : ''}>
+              {' '}
+              {isUserVotedOptionOne && 'your choice'}
+            </span>
+          </h5>
+          <h5 className="text-center">
+            *
             {textOptionTwo}
             {' '}
-            <b>{voteOptionTwo}</b>
-            <b>{isUserVotedOptionTwo ? ' your choice' : ''}</b>
-          </p>
+            -
+            {voteOptionTwo}
+            /
+            {totalVote}
+            {' '}
+            (
+            {((voteOptionTwo * 100) / totalVote).toFixed(2)}
+            %)
+            <span className={isUserVotedOptionTwo ? 'badge badge-primary' : ''}>
+              {' '}
+              {isUserVotedOptionTwo && 'your choice'}
+            </span>
+          </h5>
+
 
         </div>
       </>
@@ -48,9 +81,10 @@ class PollResult extends Component {
   }
 }
 
-const mapStateToProps = ({ questions, authUser }) => ({
+const mapStateToProps = ({ questions, authUser, users }) => ({
   questions,
   authUser,
+  users,
 });
 
 export default connect(mapStateToProps)(PollResult);

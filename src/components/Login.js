@@ -9,8 +9,8 @@ class Login extends Component {
     selectedUser: 'none',
   }
 
-  handleChange = (e) => {
-    const { value } = e.target;
+  handleChange = (event) => {
+    const { value } = event.target;
     this.setState({
       selectedUser: value,
     });
@@ -23,31 +23,45 @@ class Login extends Component {
     if (selectedUser !== 'none') {
       dispatch(authUser(selectedUser));
     }
+    console.log(this.props);
   }
 
   render() {
     const { users, authUser } = this.props;
     const { selectedUser } = this.state;
-    console.log(authUser);
+
+    const{state} = this.props.location;
+
+    // console.log("*******", this.props.location.state);
+    if (authUser && state && state.referrer) {
+      return <Redirect to={state.referrer} />;
+    }
+    
     if (authUser) {
       return <Redirect to="/home" />;
     }
 
 
     return (
-      <>
-        <h3>Select the user</h3>
-        <form onSubmit={this.handleSubmit}>
-          <select value={selectedUser} onChange={this.handleChange}>
-            <option disabled value="none">
-              Select an Option
-            </option>
-            {users.map((user) => <option key={user}>{user}</option>)}
-          </select>
-          <br />
-          <button type="submit">Login</button>
-        </form>
-      </>
+      <div className="login-container h100 center">
+        <h3 className="login-header text-center">Welcome to the Would you Rather</h3>
+        <div className="card w75 text-center">
+          <div className="card-body">
+            <h3 className="card-title">Select the user</h3>
+            <form onSubmit={this.handleSubmit}>
+              <p>
+                <select value={selectedUser} onChange={this.handleChange} className="select-user">
+                  <option disabled value="none">
+                    Select an Option
+                  </option>
+                  {users.map((user) => <option key={user}>{user}</option>)}
+                </select>
+              </p>
+              <button type="submit" className="btn btn-primary">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }

@@ -1,0 +1,22 @@
+.select-user {
+  width:200px;
+  border-radius: 0px;
+  height: 30px;
+}
+
+.login-container, .poll-container{
+  width: 50%;
+  margin: auto;
+  margin-top: 10%;
+  
+}
+
+.login-header, .poll-header{
+  margin-bottom: 50px;
+}
+
+
+.App{
+  margin: auto;
+  width: 80%;
+}

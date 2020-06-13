@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { saveQuestion } from '../actions/questionAction';
+import Nav from './Nav';
 
 class NewQuestion extends Component {
   state = {
@@ -24,16 +25,32 @@ class NewQuestion extends Component {
 
   render() {
     const { optionOneText, optionTwoText } = this.state;
+    const { authUser } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
-        option1:
-        <input value={optionOneText} name="optionOneText" onChange={this.handleChange} />
-        <br />
-        option2:
-        <input value={optionTwoText} name="optionTwoText" onChange={this.handleChange} />
-        <br />
-        <button type="submit" onSubmit={this.handleSubmit}>submit</button>
-      </form>
+      <>
+        <Nav />
+        <div className=" p-3 poll-container  ">
+          <div className="p-4 card w75 text-center">
+            <form onSubmit={this.handleSubmit} className="center">
+              <h4 className="poll-header text-center">
+                {authUser}
+                ,
+
+                {' '}
+                Create a new Question ?
+              </h4>
+
+              <b>option1:</b>
+              <input className=" m-3" value={optionOneText} name="optionOneText" onChange={this.handleChange} />
+              <br />
+              <b>option2:</b>
+              <input className=" m-3" value={optionTwoText} name="optionTwoText" onChange={this.handleChange} />
+              <br />
+              <button type="submit" onSubmit={this.handleSubmit} className="btn btn-primary center">submit</button>
+            </form>
+          </div>
+        </div>
+      </>
     );
   }
 }

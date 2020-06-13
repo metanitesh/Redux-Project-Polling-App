@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import indexReducer from './reducers/indexReducer';
 import indexMiddleware from './middleware';
 import App from './App';
+import './index.css';
 
 const store = createStore(indexReducer, indexMiddleware);
 window.store = store;

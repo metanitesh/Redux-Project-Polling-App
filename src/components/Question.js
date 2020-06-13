@@ -1,9 +1,9 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { saveQuestionAnswer } from './../actions/questionAction';
-import Nav from './Nav';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { saveQuestionAnswer } from '../actions/questionAction';
+import Nav from './Nav';
 
 class Question extends Component {
   state={
@@ -27,7 +27,23 @@ class Question extends Component {
   }
 
   render() {
-    const { questions, users, authUser } = this.props;
+    const {
+      questions, users, authUser, location,
+    } = this.props;
+
+    console.log('here--------------', location.pathname);
+
+    if (!authUser) {
+      console.log(location.pathname);
+      return (
+        <Redirect to={{
+          pathname: '/',
+          state: { referrer: location.pathname },
+        }}
+        />
+      );
+    }
+
     if (!Object.keys(questions).length || !Object.keys(users).length) {
       return <div> Loading.... </div>;
     }
@@ -35,7 +51,15 @@ class Question extends Component {
     const { id } = this.props.match.params;
 
     const question = questions[id];
-    // const { author } = question;
+    if (!question) {
+      return (
+        <>
+          <Nav />
+          <h4 className="m-5 text-center">404 Question not found</h4>
+        </>
+      );
+    }
+    
     const authorProfile = users[authUser];
     const authorAnswers = Object.keys(authorProfile.answers);
 
@@ -45,21 +69,28 @@ class Question extends Component {
     return (
       <>
         <Nav />
-        <img alt="avatar" src={`/${authorProfile.avatarURL}`} height="40px" />
-        {question.author}
-        {' '}
-        asked - Would you rather :
+        <div className="login-container h100 border p-5 center">
+
+          <h5>
+            <img alt="avatar" src={`/${users[question.author].avatarURL}`} height="40px" />
+            {question.author}
+            {' '}
+            asked - Would you rather :
+          </h5>
 
 
-        <form onSubmit={this.handleSubmit}>
-          <input type="radio" value="optionOne" name="answer" onChange={this.handleChange} />
-          {question.optionOne.text}
-          <input type="radio" value="optionTwo" name="answer" onChange={this.handleChange} />
-          {question.optionTwo.text}
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-
+          <form onSubmit={this.handleSubmit}>
+            <p>
+              <input type="radio" value="optionOne" name="answer" onChange={this.handleChange} />
+              {question.optionOne.text}
+            </p>
+            <p>
+              <input type="radio" value="optionTwo" name="answer" onChange={this.handleChange} />
+              {question.optionTwo.text}
+            </p>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
       </>
     );
   }

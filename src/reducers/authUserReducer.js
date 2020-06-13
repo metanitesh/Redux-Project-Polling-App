@@ -1,6 +1,6 @@
 import { AUTH_USER, UN_AUTH_USER } from '../actions/authUserAction';
 
-export default function authUser(state = 'sarahedo', action) {
+export default function authUser(state = null, action) {
   switch (action.type) {
     case AUTH_USER:
       return action.user || null;

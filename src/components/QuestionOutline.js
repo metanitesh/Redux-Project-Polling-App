@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import formatDate from './../helper';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Question extends Component {
@@ -19,14 +19,29 @@ class Question extends Component {
     }
 
     return (
-      <div>
-        <img src={authorProfile.avatarURL} height="40px" />
-        {authorProfile.name}
-        {' '}
-        asked  _
-        {question.id}
-        _
-        <Link to={url}>{linkText}</Link>
+      <div className="card mt-3 d-flex p-2 flex-row">
+        <div className="mr-3">
+          <img src={authorProfile.avatarURL} height="40px" />
+          
+        </div>
+        <div className="mr-3">
+          <span className="text-muted">
+            {authorProfile.name}
+            {' '}
+            asked
+            {' '}
+            {formatDate(question.timestamp)}
+          </span>
+          <span>
+            {' '}
+            _
+            {question.optionOne.text}
+          </span>
+          _
+        </div>
+
+        <div className="mr-3"><Link to={url}>{linkText}</Link></div>
+
         {/* {this.props.user.name} */}
         {/* {users[question['author']]} */}
       </div>
